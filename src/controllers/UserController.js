@@ -1,14 +1,14 @@
+//importando o model User
 const User = require('../models/User');
 
 //controller do model User
 module.exports = {
     //método que armazena um  registro no banco de dados
     //INSERT INTO nomeDaTabela VALUES ...
-    async store(req, res){
+    async store(req, res){  
         const { name, email } = req.body;
 
-        const user = await User.create({name, email});
-
+        const user = await User.create({name, email}); //o async/await representa que a função é assincrona 
         return res.json(user);
     },
     //método que lista todos os registros
@@ -31,7 +31,7 @@ module.exports = {
         const user = await User.findByPk(req.params.id);
         const { name, email} = req.body;
 
-        user.update({name, email});
+        await user.update({name, email});
         return res.json(user);
     },
     //metódo que exclui um registro
@@ -39,8 +39,12 @@ module.exports = {
     async destroy(req, res){
         const user = await User.findByPk(req.params.id);
 
-        const response = user.destroy();
-
-        return res.json(response);
+        try{
+            await user.destroy();
+            return res.json({"mensagem": "User excluído com sucesso."});
+        }catch(err){
+            return res.json({"mensagem": "Erro ao excluir usuário."});
+        }
+        
     }
 };

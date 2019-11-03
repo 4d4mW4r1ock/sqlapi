@@ -1,0 +1,10 @@
+const path = require('path');
+
+//o sequelize procura por um arquivo com o nome config.json
+//caso a gente não utilize este arquivo, devemos informar o arquivo
+//de configuracao
+module.exports = {
+    config: path.resolve(__dirname, 'src','config', 'database.js'),
+    //informar a pasta aonde ficarão armazenadas as migrations
+    'migrations-path': path.resolve(__dirname, 'src', 'database', 'migrations')
+};
